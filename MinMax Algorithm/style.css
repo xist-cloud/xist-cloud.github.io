@@ -1,0 +1,140 @@
+:root {
+    --cell-height: 100px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.board {
+    height: 300px;
+    display: grid;
+    justify-items: center;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    grid-template-columns: repeat(3, auto);
+}
+
+.board .cell {
+    height: var(--cell-height);
+    width: var(--cell-height);
+    background-color: white;
+    border: 1px solid black;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.board .cell:nth-child(3n + 1) {
+    border-left: none;
+}
+
+.board .cell:nth-child(3n) {
+    border-right: none;
+}
+
+.board .cell:first-child,
+.board .cell:nth-child(2),
+.board .cell:nth-child(3) {
+    border-top: none;
+}
+
+.board .cell:last-child,
+.board .cell:nth-child(8),
+.board .cell:nth-child(7) {
+    border-bottom: none;
+}
+
+.cell.cross::before,
+.cell.cross::after,
+.board.cross .cell:not(.cross):not(.circle):hover::before,
+.board.cross .cell:not(.cross):not(.circle):hover::after {
+    content: "";
+    background-color: lightgray;
+    width: 10px;
+    height: 70px;
+    display: flex;
+    position: absolute;
+}
+
+.cell.cross::after,
+.board.cross .cell:not(.cross):not(.circle):hover::after {
+    transform: rotate(-45deg);
+}
+.cell.cross::before,
+.board.cross .cell:not(.cross):not(.circle):hover::before {
+    transform: rotate(45deg);
+}
+
+.cell.cross::before,
+.cell.cross::after {
+    background-color: black;
+}
+
+.cell.cross,
+.cell.circle {
+    cursor: not-allowed;
+}
+
+.cell.circle::before,
+.board.circle .cell:not(.cross):not(.circle):hover::before {
+    content: "";
+    width: 70px;
+    height: 70px;
+    background-color: black;
+}
+
+.cell.circle::after,
+.board.circle .cell:not(.cross):not(.circle):hover::after {
+    content: "";
+    width: 50px;
+    height: 50px;
+    background-color: white;
+}
+
+.cell.circle::after,
+.cell.circle::before,
+.board.circle .cell:not(.cross):not(.circle):hover::before,
+.board.circle .cell:not(.cross):not(.circle):hover::after {
+    border-radius: 50%;
+    position: absolute;
+}
+
+.board.circle .cell:not(.cross):not(.circle):hover::before {
+    background-color: lightgray;
+}
+
+/* ===================================== RESTART BUTTON ======================================== */
+.btn {
+    cursor: pointer;
+    padding: 10px 30px;
+    outline: none;
+    border: none;
+    border-radius: 20px;
+    color: white;
+    background-color: black;
+    margin-bottom: 0;
+}
+
+.btn:hover {
+    background-color: #999;
+}
+
+.container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+.container .message {
+    font-size: 2rem;
+    z-index: 2;
+    padding-bottom: 30px;
+}
