@@ -13,41 +13,31 @@ let winningStates = [
 const board = document.querySelector(".board");
 const cells = document.querySelectorAll(".cell");
 const restart = document.querySelector("#restart");
-const turn = document.querySelector("#turn");
+const player = document.querySelector("#turn");
 const winMessage = document.querySelector(".win-message");
 
 function startGame() {
     restart.addEventListener("click", () => {
         window.location.reload(true);
     });
+    board.classList.add("circle");
+    aiMove();
+    player.innerHTML = "<b>O</b>";
     cells.forEach((cell) => {
         cell.addEventListener("click", clickHandler, { once: true });
     });
-    changeHoverState();
 }
 
 startGame();
 
 function clickHandler(e) {
-    if (crossTurn) {
-        e.target.classList.add("cross");
-    } else {
+    if (!e.target.classList.contains("circle") && !e.target.classList.contains("cross")) {
         e.target.classList.add("circle");
-    }
-    crossTurn ? checkWin("cross") : checkWin("circle");
-    crossTurn = !crossTurn;
-    changeHoverState();
-}
-
-function changeHoverState() {
-    board.classList.remove("cross");
-    board.classList.remove("circle");
-    if (crossTurn) {
-        turn.innerHTML = "X";
-        board.classList.add("cross");
-    } else {
-        turn.innerHTML = "O";
-        board.classList.add("circle");
+        checkWin("circle");
+        if (!getStatus("circle")) {
+            aiMove();
+        }
+        crossTurn = !crossTurn;
     }
 }
 
@@ -66,4 +56,18 @@ function checkWin(currentTurn) {
             cell.removeEventListener("click", clickHandler);
         });
     }
+}
+
+function aiMove() {
+    let available = [];
+    let move;
+    cells.forEach((cell) => {
+        if (!cell.classList.contains("cross") && !cell.classList.contains("circle")) {
+            available.push(cell);
+        }
+    });
+    move = available[Math.floor(Math.random() * available.length)];
+    move.classList.add("cross");
+    checkWin("cross");
+    crossTurn = !crossTurn;
 }
